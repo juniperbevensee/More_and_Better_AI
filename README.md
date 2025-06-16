@@ -2,7 +2,7 @@
 
 # More and Better AI
 
-*Check  out [More And Better AI](https://moreandbetter.ai) for more information!*
+*Check  out [More And Better AI](moreandbetter.ai) for more information!*
 
 A platform to create and use free, local, and open-source AI models. 
 

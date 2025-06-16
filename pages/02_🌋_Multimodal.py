@@ -8,67 +8,61 @@ import ollama
 from utilities.icon import page_icon
 
 st.set_page_config(
-    page_title="LLaVA Playground",
+    page_title="Image Analysis",
     page_icon="🌋",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-
 def img_to_base64(image):
-    """
-    Convert an image to base64 format.
-
-    Args:
-        image: PIL.Image - The image to be converted.
-    Returns:
-        str: The base64 encoded image.
-    """
+    """Convert an image to base64 format."""
     buffered = BytesIO()
     image.save(buffered, format="PNG")
     return base64.b64encode(buffered.getvalue()).decode()
 
-
-def get_allowed_model_names(models_info: dict) -> tuple:
+def get_allowed_model_names(models_info) -> tuple:
     """
     Returns a tuple containing the names of the allowed models.
+    Updated to work with current Ollama API response structure.
     """
     allowed_models = ["bakllava:latest", "llava:latest"]
-    return tuple(
-        model
-        for model in allowed_models
-        if model in [m["name"] for m in models_info["models"]]
-    )
-
+    
+    # Safely extract model names from the response
+    installed_models = []
+    if hasattr(models_info, 'models'):
+        installed_models = [model.model for model in models_info.models if hasattr(model, 'model')]
+    
+    return tuple(model for model in allowed_models if model in installed_models)
 
 def main():
     page_icon("🌋")
-    st.subheader("LLaVA 1.6 Playground", divider="red", anchor=False)
+    st.subheader("Image Analysis", divider="red", anchor=False)
 
-    models_info = ollama.list()
-    available_models = get_allowed_model_names(models_info)
-    missing_models = set(["bakllava:latest", "llava:latest"]) - set(available_models)
+    try:
+        models_info = ollama.list()
+        available_models = get_allowed_model_names(models_info)
+        missing_models = set(["bakllava:latest", "llava:latest"]) - set(available_models)
+    except Exception as e:
+        st.error(f"Failed to get model list: {str(e)}", icon="😳")
+        available_models = []
+        missing_models = set(["bakllava:latest", "llava:latest"])
 
     col_1, col_2 = st.columns(2)
     with col_1.popover("⚙️ Model Management", help="Manage models here"):
         if not available_models:
             st.error("No allowed models are available.", icon="😳")
             model_to_download = st.selectbox(
-                "Select a model to download", ["bakllava:latest", "llava:latest"]
+                "Select a model to download (~5GB)", ["bakllava:latest", "llava:latest"]
             )
             if st.button(f"Download {model_to_download}"):
                 try:
-                    ollama.pull(model_to_download)
-                    st.toast(
-                        f"""Downloaded model: {
-                            model_to_download}""",
-                        icon="✅",
-                    )
+                    with st.spinner(f"Downloading {model_to_download}..."):
+                        ollama.pull(model_to_download)
+                    st.toast(f"Downloaded model: {model_to_download}", icon="✅")
                     st.rerun()
                 except Exception as e:
                     st.error(
-                        f"""Failed to download model: {
-                            model_to_download}. Error: {str(e)}""",
+                        f"Failed to download model: {model_to_download}. Error: {str(e)}",
                         icon="😳",
                     )
         else:
@@ -78,17 +72,13 @@ def main():
                 )
                 if st.button(f":green[Download **_{model_to_download}_**]"):
                     try:
-                        ollama.pull(model_to_download)
-                        st.toast(
-                            f"""Downloaded model: {
-                                model_to_download}""",
-                            icon="✅",
-                        )
+                        with st.spinner(f"Downloading {model_to_download}..."):
+                            ollama.pull(model_to_download)
+                        st.toast(f"Downloaded model: {model_to_download}", icon="✅")
                         st.rerun()
                     except Exception as e:
                         st.error(
-                            f"""Failed to download model: {
-                                model_to_download}. Error: {str(e)}""",
+                            f"Failed to download model: {model_to_download}. Error: {str(e)}",
                             icon="😳",
                         )
 
@@ -100,8 +90,7 @@ def main():
                     st.rerun()
                 except Exception as e:
                     st.error(
-                        f"""Failed to delete model: {
-                            selected_model}. Error: {str(e)}""",
+                        f"Failed to delete model: {selected_model}. Error: {str(e)}",
                         icon="😳",
                     )
 
@@ -109,17 +98,21 @@ def main():
         return
 
     selected_model = col_2.selectbox(
-        "Pick a model available locally on your system ↓", available_models, key=1
+        "Pick a model available locally on your system ↓", 
+        available_models, 
+        key="model_select"
     )
 
+    # Initialize chat session
     if "chats" not in st.session_state:
         st.session_state.chats = []
-
     if "uploaded_file_state" not in st.session_state:
         st.session_state.uploaded_file_state = None
 
     uploaded_file = st.file_uploader(
-        "Upload an image for analysis", type=["png", "jpg", "jpeg"]
+        "Upload an image for analysis", 
+        type=["png", "jpg", "jpeg"],
+        key="image_upload"
     )
 
     col1, col2 = st.columns(2)
@@ -136,65 +129,45 @@ def main():
         container2 = st.container(height=500, border=True)
 
         if uploaded_file is not None:
+            # Display chat history
             for message in st.session_state.chats:
                 avatar = "🌋" if message["role"] == "assistant" else "🫠"
                 with container2.chat_message(message["role"], avatar=avatar):
-                    if message["role"] == "user":
-                        st.markdown(message["content"])
-                    else:
-                        st.markdown(message["content"])
+                    st.markdown(message["content"])
 
-            if user_input := st.chat_input(
-                "Question about the image...", key="chat_input"
-            ):
+            # Handle new user input
+            if user_input := st.chat_input("Question about the image...", key="chat_input"):
                 st.session_state.chats.append({"role": "user", "content": user_input})
                 container2.chat_message("user", avatar="🫠").markdown(user_input)
 
                 image_base64 = img_to_base64(image)
                 API_URL = "http://localhost:11434/api/generate"
-                headers = {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                }
-                data = {
-                    "model": selected_model,
-                    "prompt": user_input,
-                    "images": [image_base64],
-                }
-
+                
                 with container2.chat_message("assistant", avatar="🌋"):
                     with st.spinner(":blue[processing...]"):
-                        response = requests.post(API_URL, json=data, headers=headers)
-                    if response.status_code == 200:
-                        response_lines = response.text.split("\n")
-                        llava_response = ""
-                        for line in response_lines:
-                            if line.strip():  # Skip empty lines
-                                try:
-                                    response_data = json.loads(line)
-                                    if "response" in response_data:
-                                        llava_response += response_data["response"]
-                                except json.JSONDecodeError:
-                                    pass  # Skip invalid JSON lines
-                        if llava_response:
-                            st.markdown(llava_response)
-                        else:
-                            st.error(
-                                f"""No response received from {
-                                    selected_model}.""",
-                                icon="😳",
+                        try:
+                            response = requests.post(
+                                API_URL,
+                                json={
+                                    "model": selected_model,
+                                    "prompt": user_input,
+                                    "images": [image_base64],
+                                    "stream": False
+                                },
+                                headers={"Content-Type": "application/json"}
                             )
-                    else:
-                        st.error(
-                            f"""Failed to get a response from {
-                                selected_model}.""",
-                            icon="😳",
-                        )
-
-                st.session_state.chats.append(
-                    {"role": "assistant", "content": llava_response}
-                )
-
+                            
+                            if response.status_code == 200:
+                                response_data = response.json()
+                                llava_response = response_data.get("response", "")
+                                st.markdown(llava_response)
+                                st.session_state.chats.append(
+                                    {"role": "assistant", "content": llava_response}
+                                )
+                            else:
+                                st.error(f"API Error: {response.status_code}", icon="😳")
+                        except Exception as e:
+                            st.error(f"Error processing request: {str(e)}", icon="😳")
 
 if __name__ == "__main__":
     main()
