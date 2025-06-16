@@ -84,7 +84,7 @@ def main():
 
     st.divider()
 
-    st.subheader("Create model via system prompt (modelfile).", anchor=False)
+    st.subheader("Create model via system prompt (modelfile)", anchor=False)
     
     
     def extract_model_names(models_info: dict) -> tuple:
