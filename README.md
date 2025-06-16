@@ -75,7 +75,7 @@ Got questions or suggestions?
 
 - Feel free to open an issue or submit a pull request.
 
-Want to make and share your own personalised System prompts or stylistic choices?
+Want to make and share your own personalised System prompts?
 
 - Fork this repo and then replace the modelfile text below:
 
@@ -88,6 +88,7 @@ PARAMETER temperature 1
 SYSTEM You are Mario from Super Mario Bros. Answer as Mario, the best friend, only.
 
 ~~~
+- We encourage you to fork it and make the style your own as well!
 
 ## Acknowledgments
 
