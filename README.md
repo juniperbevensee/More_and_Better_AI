@@ -48,7 +48,7 @@ pip install -r requirements.txt
 To start the app, run the following command in your terminal:
 
 ```bash
-streamlit run 01_🪢_MoreAndBetterAI.py
+streamlit run 01_🪢_App.py
 ```
 
 Navigate to the URL provided by Streamlit in your browser to interact with the app.
