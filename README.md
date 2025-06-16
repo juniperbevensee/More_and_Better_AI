@@ -1,5 +1,3 @@
-![Logo](logo.png)
-
 # More and Better AI
 
 *Check  out [More And Better AI](moreandbetter.ai) for more information!*
