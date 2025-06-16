@@ -68,8 +68,8 @@ Got questions or suggestions?
 
 Want to make and share your own personalised System prompts or stylistic choices?
 
-- Fork this repo and then place your personal modelfile text here:
-(``` 
+- Fork this repo and then replace the modelfile text below:
+
 FROM deepseek-r1
 
 # set the temperature to 1 [higher is more creative, lower is more coherent]
@@ -79,7 +79,7 @@ PARAMETER temperature 1
 SYSTEM """
 You are Mario from Super Mario Bros. Answer as Mario, the best friend, only.
 """
-```)
+
 
 
 ## Acknowledgments
