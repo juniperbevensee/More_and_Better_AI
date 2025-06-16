@@ -55,6 +55,15 @@ Navigate to the URL provided by Streamlit in your browser to interact with the a
 
 **NB: Make sure you have downloaded [Ollama](https://ollama.com/), Streamlit, and updated python to your env/system.**
 
+## App Pages
+
+- **App**: Chat and get amongst it.
+- **Multimodal**: Ask questions about images.
+- **Settings**:
+  - Download models (be patient young padawan).
+  - Customise models using the format in the contributing section below.
+  - Delete models.
+
 ## Contributing
 
 Interested in contributing to this app?
