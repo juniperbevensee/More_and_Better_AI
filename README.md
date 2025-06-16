@@ -64,6 +64,10 @@ Got questions or suggestions?
 
 - Feel free to open an issue or submit a pull request.
 
+Want to make and share your own personalised System prompts or stylistic choices?
+
+- Follow this format: [Personalisations]()
+
 ## Acknowledgments
 
 👏 Kudos to the [Ollama](https://ollama.com/) team for their efforts in making open-source models more accessible!
