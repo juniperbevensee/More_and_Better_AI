@@ -46,7 +46,8 @@ def main():
     if available_models:
         selected_model = st.selectbox(
             "Pick a model available locally on your system ↓", 
-            available_models
+            available_models, 
+            help="Go to Settings to download or create models."
         )
     else:
         st.warning("You have not pulled any model from Ollama yet!", icon="⚠️")
