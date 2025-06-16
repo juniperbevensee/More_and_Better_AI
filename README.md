@@ -6,7 +6,7 @@ A platform to personalise and use free, local, and open-source AI models.
 
 This project demonstrates how to run and manage models locally using [Ollama](https://ollama.com/) by creating an interactive UI with [Streamlit](https://streamlit.io).
 
-The app has a page for running chat-based models and also one for nultimodal models (_llava and bakllava_) for vision.
+The app has a page for running chat-based models and also one for multimodal models (_llava and bakllava_) for vision.
 
 ## App in Action
 
