@@ -1,7 +1,5 @@
 # More and Better AI
 
-*Check  out [More And Better AI](https://moreandbetter.ai) for more information!*
-
 A platform to personalise and use free, local, and open-source AI models. 
 
 This project demonstrates how to run and manage models locally using [Ollama](https://ollama.com/) by creating an interactive UI with [Streamlit](https://streamlit.io).
@@ -9,6 +7,8 @@ This project demonstrates how to run and manage models locally using [Ollama](ht
 The app has a page for running chat-based models and also one for multimodal models (_llava and bakllava_) for vision.
 
 Additionally, we make it easy to deeply personalise and save new models using system prompts.
+
+*Check  out [More And Better AI](https://moreandbetter.ai) for more information!*
 
 ## App in Action
 
