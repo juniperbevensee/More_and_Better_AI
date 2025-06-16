@@ -8,6 +8,8 @@ This project demonstrates how to run and manage models locally using [Ollama](ht
 
 The app has a page for running chat-based models and also one for multimodal models (_llava and bakllava_) for vision.
 
+Additionally, we make it easy to deeply personalise and save new models using system prompts.
+
 ## App in Action
 
 ![App](app.png)
@@ -51,7 +53,7 @@ streamlit run 01_🪢_MoreAndBetterAI.py
 
 Navigate to the URL provided by Streamlit in your browser to interact with the app.
 
-**NB: Make sure you have downloaded [Ollama](https://ollama.com/) to your system.**
+**NB: Make sure you have downloaded [Ollama](https://ollama.com/), Streamlit, and updated python to your env/system.**
 
 ## Contributing
 
