@@ -63,6 +63,8 @@ Navigate to the URL provided by Streamlit in your browser to interact with the a
   - Download models (be patient young padawan).
   - Customise models using the format in the contributing section below.
   - Delete models.
+ 
+![settings](settings.png)
 
 ## Contributing
 
