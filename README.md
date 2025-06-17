@@ -27,6 +27,10 @@ Additionally, we make it easy to deeply personalise and save new models using sy
 - **Local Model Execution**: Run your Ollama models locally without the need for external APIs (except for downloading).
 - **Real-time Responses**: Get real-time responses from your models directly in the UI even without access to wifi.
 
+## Use notes
+
+Remember LLMs work via token prediction which has potentially fundamental problems related to hallucination. Each model is also limited by its training data. You can overcome it's fine tuning to an extent with prompt engineering but still, use it as a tool but don't treat it as authoritative truth. It's not a lawyer. It's not wikipedia. It's not your therapist. But it can still help you with all three.
+
 ## Installation
 
 Before running the app, ensure you have Python installed on your machine. Then, clone this repository and install the required packages using pip:
