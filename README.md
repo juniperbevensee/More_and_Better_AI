@@ -29,7 +29,11 @@ Additionally, we make it easy to deeply personalise and save new models using sy
 
 ## Use notes
 
-Remember LLMs work via token prediction which has potentially fundamental problems related to hallucination. Each model is also limited by its training data. You can overcome it's fine tuning to an extent with prompt engineering but still, use it as a tool but don't treat it as authoritative truth. It's not a lawyer. It's not wikipedia. It's not your therapist. But it can still help you with all three.
+Remember LLMs work via token prediction which has potentially fundamental problems related to hallucination. Each model is also limited by its training data.
+You can overcome its fine tuning and patterns to an extent with prompt engineering and additional training data/rounds but still, use it as a tool. 
+Don't treat it as authoritative truth.
+It's not a lawyer. It's not wikipedia. It's not your therapist. It's not your friend. 
+But it could potentially help you with all four. 
 
 ## Installation
 
